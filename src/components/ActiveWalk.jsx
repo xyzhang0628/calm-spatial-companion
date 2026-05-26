@@ -8,6 +8,7 @@ import ProgressArc from './ProgressArc.jsx';
 function ActiveWalk() {
   const { activeRoute, setWalkPhase } = useWalk();
   const route = activeRoute ?? routes[0];
+  const companionMoment = route.moments[0];
   const [isPaused, setIsPaused] = useState(false);
   const [showNote, setShowNote] = useState(false);
 
@@ -42,7 +43,7 @@ function ActiveWalk() {
       <AnimatePresence>
         {showNote && (
           <CompanionNote>
-            Notice the soft edge of your route. Let the next turn arrive slowly.
+            {companionMoment.note}
           </CompanionNote>
         )}
       </AnimatePresence>
@@ -57,6 +58,9 @@ function ActiveWalk() {
           <p className="eyebrow">Now walking</p>
           <h1>{route.name}</h1>
           <p>{route.tagline}</p>
+          <p className="walking-card__moment">
+            First moment: {companionMoment.title} · {companionMoment.feature}
+          </p>
         </div>
         <ProgressArc />
         <button

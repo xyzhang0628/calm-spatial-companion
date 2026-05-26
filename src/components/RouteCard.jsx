@@ -12,13 +12,19 @@ function RouteCard({ route, isActive, onSelect, onBegin }) {
         onClick={() => onSelect(route)}
       >
         <span className="route-card__meta">
-          {route.duration_min} min · {route.state}
+          {route.duration_min} min · {route.state} · {route.geometry.length} points
         </span>
         <h2>{route.name}</h2>
         <p>{route.tagline}</p>
+        <p className="route-card__anchor">{route.anchor_label}</p>
         <div className="route-card__tags">
           {route.tags.map((tag) => (
             <span key={tag}>{tag}</span>
+          ))}
+        </div>
+        <div className="route-card__moments">
+          {route.moments.map((moment) => (
+            <span key={moment.id}>{moment.title}</span>
           ))}
         </div>
       </button>

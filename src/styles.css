@@ -220,6 +220,22 @@ button {
   text-align: center;
 }
 
+.map-placeholder__content {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: center;
+  max-width: 42rem;
+  padding: 1rem;
+}
+
+.map-placeholder__content small {
+  color: rgba(32, 37, 34, 0.58);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  max-width: 36rem;
+}
+
 .route-discovery__map {
   height: 60vh;
 }
@@ -329,6 +345,11 @@ button {
   margin: 0;
 }
 
+.route-card__anchor {
+  font-size: 0.85rem;
+  margin-top: 0.65rem !important;
+}
+
 .route-card__tags {
   display: flex;
   flex-wrap: wrap;
@@ -343,6 +364,25 @@ button {
   font-size: 0.75rem;
   font-weight: 700;
   padding: 0.35rem 0.55rem;
+}
+
+.route-card__moments {
+  border-top: 1px solid rgba(32, 37, 34, 0.08);
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+}
+
+.route-card__moments span {
+  color: rgba(32, 37, 34, 0.6);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.route-card__moments span::before {
+  color: var(--route-state-color);
+  content: '• ';
 }
 
 .begin-button {
@@ -387,6 +427,12 @@ button {
   font-size: clamp(1.6rem, 4vw, 2.8rem);
   line-height: 1;
   margin: 0 0 0.35rem;
+}
+
+.walking-card__moment {
+  font-size: 0.85rem;
+  margin-top: 0.6rem !important;
+  max-width: 42rem;
 }
 
 .progress-arc {

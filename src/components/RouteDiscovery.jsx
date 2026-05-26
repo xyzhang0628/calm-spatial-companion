@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useMemo } from 'react';
 import { useWalk } from '../context/WalkContext.jsx';
-import { routes } from '../data/routes.js';
+import { mapInitialView, routes } from '../data/routes.js';
 import RouteCard from './RouteCard.jsx';
 
 function RouteDiscovery() {
@@ -42,7 +42,18 @@ function RouteDiscovery() {
   return (
     <section className="screen route-discovery">
       <div className="map-placeholder route-discovery__map">
-        <span>Map loads here — Phase 2</span>
+        <div className="map-placeholder__content">
+          <span>Map loads here — Phase 2</span>
+          <small>
+            Center {mapInitialView.center.join(', ')} · zoom {mapInitialView.zoom}
+          </small>
+          {activeRoute && (
+            <small>
+              {activeRoute.anchor_label} · {activeRoute.geometry.length} coordinate trace ·{' '}
+              {activeRoute.moments.length} placed moments
+            </small>
+          )}
+        </div>
       </div>
 
       <motion.div
