@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calm Spatial Companion</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="header">
+        <h1>Calm Spatial Companion</h1>
+        <p class="subtitle">Atmosphere-based walking &amp; running experiences</p>
+      </header>
+      <main class="main">
+        <section class="atmosphere" id="atmosphere">
+          <div class="atmosphere-display">
+            <span class="atmosphere-icon" id="atmosphere-icon">🌤️</span>
+            <p class="atmosphere-label" id="atmosphere-label">Clear Sky</p>
+          </div>
+        </section>
+        <section class="controls">
+          <button id="btn-walk" class="btn btn-walk">Walk</button>
+          <button id="btn-run" class="btn btn-run">Run</button>
+        </section>
+        <section class="status" id="status">
+          <p id="status-text">Ready to explore</p>
+          <p class="pace" id="pace"></p>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
