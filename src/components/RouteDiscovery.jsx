@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useWalk } from '../context/WalkContext.jsx';
 import { routes } from '../data/routes.js';
+import MapView from './MapView.jsx';
 import RouteCard from './RouteCard.jsx';
 
 function RouteDiscovery() {
@@ -9,29 +10,23 @@ function RouteDiscovery() {
     spatialState,
     activeRoute,
     setActiveRoute,
-    setSpatialState,
     setWalkPhase,
   } = useWalk();
+  const listRef = useRef(null);
 
   const visibleRoutes = useMemo(() => {
-    const preferredRoute = routes.find((route) => route.state === spatialState) ?? routes[0];
-    const supportingRoutes = routes
-      .filter((route) => route.id !== preferredRoute.id)
-      .slice(0, 2);
-
-    return [preferredRoute, ...supportingRoutes];
-  }, [spatialState]);
+    const state = spatialState ?? activeRoute?.state ?? 'calm';
+    return routes.filter((route) => route.state === state);
+  }, [activeRoute?.state, spatialState]);
 
   useEffect(() => {
-    if (!activeRoute && visibleRoutes[0]) {
+    const missingActiveRoute =
+      !activeRoute || !visibleRoutes.some((route) => route.id === activeRoute.id);
+
+    if (missingActiveRoute && visibleRoutes[0]) {
       setActiveRoute(visibleRoutes[0]);
     }
   }, [activeRoute, setActiveRoute, visibleRoutes]);
-
-  function handleSelect(route) {
-    setActiveRoute(route);
-    setSpatialState(route.state);
-  }
 
   function handleBegin() {
     if (activeRoute) {
@@ -39,30 +34,38 @@ function RouteDiscovery() {
     }
   }
 
+  function handleScroll() {
+    const list = listRef.current;
+    if (!list) {
+      return;
+    }
+
+    const step = window.innerWidth - 52;
+    const route = visibleRoutes[Math.round(list.scrollLeft / step)];
+    if (route && route.id !== activeRoute?.id) {
+      setActiveRoute(route);
+    }
+  }
+
   return (
     <section className="screen route-discovery">
-      <div className="map-placeholder route-discovery__map">
-        <span>Map loads here — Phase 2</span>
-      </div>
+      <MapView routes={visibleRoutes} activeRoute={activeRoute} mode="browse" />
 
       <motion.div
         className="bottom-sheet"
-        initial={{ y: '100%' }}
-        animate={{ y: 0 }}
-        transition={{ type: 'spring', stiffness: 140, damping: 22 }}
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 160 }}
+        dragElastic={0.1}
+        initial={{ y: 160 }}
       >
         <div className="bottom-sheet__handle" aria-hidden="true" />
-        <div className="bottom-sheet__intro">
-          <p className="eyebrow">Route discovery</p>
-          <h1>Choose a texture for the walk.</h1>
-        </div>
-        <div className="route-list">
+        <div className="route-list" ref={listRef} onScroll={handleScroll}>
           {visibleRoutes.map((route) => (
             <RouteCard
               key={route.id}
               route={route}
               isActive={activeRoute?.id === route.id}
-              onSelect={handleSelect}
+              onSelect={setActiveRoute}
               onBegin={handleBegin}
             />
           ))}

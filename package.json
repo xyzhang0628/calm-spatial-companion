@@ -20,9 +20,12 @@
   },
   "homepage": "https://github.com/xyzhang0628/calm-spatial-companion#readme",
   "dependencies": {
+    "@turf/turf": "^7.3.5",
     "framer-motion": "^12.40.0",
+    "mapbox-gl": "^3.24.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-map-gl": "^7.1.9"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.2",
