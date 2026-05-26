@@ -1,0 +1,488 @@
+export const STATE_COLORS = {
+  calm: "#7a9e8a",
+  grounded: "#8a7a6a",
+  open: "#6a8fa0",
+  flowing: "#8a8aaa",
+};
+
+export const STATE_DESCRIPTORS = {
+  calm: "soft shaded breathing",
+  grounded: "warm steady contact",
+  open: "wide bright horizon",
+  flowing: "gentle continuous motion",
+};
+
+export const routes = [
+  {
+    id: "calm-canopy-corridor",
+    name: "The Canopy Corridor",
+    state: "calm",
+    duration_min: 30,
+    tagline: "A shaded thread through mossy edges and softened city sound.",
+    tags: ["shade", "quiet", "leafy"],
+    qualities: {
+      shade: 0.92,
+      quietness: 0.78,
+      openness: 0.28,
+      rhythm_continuity: 0.62,
+      nature_presence: 0.9,
+    },
+    geometry: {
+      type: "LineString",
+      coordinates: [
+        [-122.7165, 45.5182],
+        [-122.7156, 45.5189],
+        [-122.7142, 45.5192],
+        [-122.7128, 45.519],
+        [-122.7117, 45.5185],
+        [-122.7106, 45.5178],
+        [-122.7094, 45.5174],
+        [-122.7083, 45.5178],
+        [-122.7073, 45.5185],
+        [-122.7062, 45.5191],
+      ],
+    },
+    moments: [
+      {
+        id: "canopy-first-shade",
+        label: "First shade",
+        coordinates: [-122.7156, 45.5189],
+        trigger_radius_m: 25,
+        companion_note:
+          "The light thins above you. Let your shoulders answer by becoming a little wider.",
+        type: "sensory",
+      },
+      {
+        id: "canopy-fern-bend",
+        label: "Fern bend",
+        coordinates: [-122.7117, 45.5185],
+        trigger_radius_m: 25,
+        companion_note:
+          "Notice the damp green at the path edge. Your breath can move at the same unhurried pace.",
+        type: "pause",
+      },
+      {
+        id: "canopy-soft-exit",
+        label: "Soft exit",
+        coordinates: [-122.7073, 45.5185],
+        trigger_radius_m: 25,
+        companion_note:
+          "The trees begin to open. Carry the shade with you for a few more steps.",
+        type: "threshold",
+      },
+    ],
+  },
+  {
+    id: "calm-water-margin",
+    name: "The Quiet Water Margin",
+    state: "calm",
+    duration_min: 45,
+    tagline: "A slow riverside walk where reflections do most of the speaking.",
+    tags: ["water", "soft air", "reflective"],
+    qualities: {
+      shade: 0.54,
+      quietness: 0.72,
+      openness: 0.68,
+      rhythm_continuity: 0.7,
+      nature_presence: 0.76,
+    },
+    geometry: {
+      type: "LineString",
+      coordinates: [
+        [-122.6731, 45.5129],
+        [-122.6726, 45.514],
+        [-122.6723, 45.5152],
+        [-122.6721, 45.5165],
+        [-122.6719, 45.5178],
+        [-122.6715, 45.519],
+        [-122.6709, 45.5201],
+        [-122.6704, 45.5213],
+        [-122.6698, 45.5224],
+        [-122.6691, 45.5234],
+      ],
+    },
+    moments: [
+      {
+        id: "water-low-rail",
+        label: "Low rail",
+        coordinates: [-122.6723, 45.5152],
+        trigger_radius_m: 25,
+        companion_note:
+          "Let your eyes rest on the waterline. There is nothing here to solve.",
+        type: "view",
+      },
+      {
+        id: "water-quiet-breath",
+        label: "Quiet breath",
+        coordinates: [-122.6715, 45.519],
+        trigger_radius_m: 25,
+        companion_note:
+          "The river keeps arriving without hurry. Match one exhale to its surface.",
+        type: "sensory",
+      },
+      {
+        id: "water-bridge-hum",
+        label: "Bridge hum",
+        coordinates: [-122.6698, 45.5224],
+        trigger_radius_m: 25,
+        companion_note:
+          "A low sound passes through the bridge. Feel how your feet stay simple beneath it.",
+        type: "threshold",
+      },
+    ],
+  },
+  {
+    id: "grounded-laurelhurst-stones",
+    name: "Stones Around the Laurel",
+    state: "grounded",
+    duration_min: 30,
+    tagline: "A park circuit of roots, old paths, and steady neighborhood edges.",
+    tags: ["earthy", "rooted", "steady"],
+    qualities: {
+      shade: 0.72,
+      quietness: 0.65,
+      openness: 0.38,
+      rhythm_continuity: 0.82,
+      nature_presence: 0.84,
+    },
+    geometry: {
+      type: "LineString",
+      coordinates: [
+        [-122.6259, 45.5246],
+        [-122.6251, 45.5253],
+        [-122.624, 45.5257],
+        [-122.6228, 45.5256],
+        [-122.6217, 45.525],
+        [-122.6212, 45.524],
+        [-122.6218, 45.5231],
+        [-122.6232, 45.5228],
+        [-122.6247, 45.5233],
+        [-122.6259, 45.5246],
+      ],
+    },
+    moments: [
+      {
+        id: "stones-root-crossing",
+        label: "Root crossing",
+        coordinates: [-122.624, 45.5257],
+        trigger_radius_m: 25,
+        companion_note:
+          "The path lifts and settles around old roots. Let your steps become deliberate.",
+        type: "sensory",
+      },
+      {
+        id: "stones-still-lawn",
+        label: "Still lawn",
+        coordinates: [-122.6217, 45.525],
+        trigger_radius_m: 25,
+        companion_note:
+          "A quiet patch of grass holds its shape. Feel the weight of your body being held too.",
+        type: "pause",
+      },
+      {
+        id: "stones-return-curve",
+        label: "Return curve",
+        coordinates: [-122.6247, 45.5233],
+        trigger_radius_m: 25,
+        companion_note:
+          "The loop begins to recognize you. Notice the even pressure under each foot.",
+        type: "threshold",
+      },
+    ],
+  },
+  {
+    id: "grounded-brickline-rest",
+    name: "The Brickline Rest",
+    state: "grounded",
+    duration_min: 15,
+    tagline: "Short blocks, warm walls, and a settled cadence through old streets.",
+    tags: ["brick", "short", "balanced"],
+    qualities: {
+      shade: 0.46,
+      quietness: 0.56,
+      openness: 0.42,
+      rhythm_continuity: 0.86,
+      nature_presence: 0.38,
+    },
+    geometry: {
+      type: "LineString",
+      coordinates: [
+        [-122.6818, 45.523],
+        [-122.6807, 45.523],
+        [-122.6796, 45.5231],
+        [-122.6784, 45.5231],
+        [-122.6773, 45.5232],
+        [-122.6764, 45.5235],
+        [-122.6755, 45.524],
+        [-122.6748, 45.5246],
+        [-122.6742, 45.5252],
+        [-122.6736, 45.5258],
+      ],
+    },
+    moments: [
+      {
+        id: "brickline-warm-wall",
+        label: "Warm wall",
+        coordinates: [-122.6796, 45.5231],
+        trigger_radius_m: 25,
+        companion_note:
+          "The wall beside you keeps the afternoon warmth. Sense the temperature of the air near your hands.",
+        type: "sensory",
+      },
+      {
+        id: "brickline-even-block",
+        label: "Even block",
+        coordinates: [-122.6764, 45.5235],
+        trigger_radius_m: 25,
+        companion_note:
+          "This block is simple and regular. Let the rhythm of it settle your jaw and tongue.",
+        type: "pause",
+      },
+      {
+        id: "brickline-corner-turn",
+        label: "Corner turn",
+        coordinates: [-122.6742, 45.5252],
+        trigger_radius_m: 25,
+        companion_note:
+          "As the corner turns, keep one thread of attention low in your feet.",
+        type: "threshold",
+      },
+    ],
+  },
+  {
+    id: "open-skyline-meadow",
+    name: "Skyline Meadow Trace",
+    state: "open",
+    duration_min: 60,
+    tagline: "A high, breathable route with long sightlines and room for the chest.",
+    tags: ["wide", "bright", "uplifted"],
+    qualities: {
+      shade: 0.28,
+      quietness: 0.7,
+      openness: 0.94,
+      rhythm_continuity: 0.58,
+      nature_presence: 0.82,
+    },
+    geometry: {
+      type: "LineString",
+      coordinates: [
+        [-122.7424, 45.5334],
+        [-122.741, 45.5342],
+        [-122.7394, 45.535],
+        [-122.7379, 45.5356],
+        [-122.7361, 45.536],
+        [-122.7344, 45.5363],
+        [-122.7328, 45.5369],
+        [-122.7314, 45.5378],
+        [-122.7302, 45.5387],
+        [-122.729, 45.5396],
+      ],
+    },
+    moments: [
+      {
+        id: "skyline-first-opening",
+        label: "First opening",
+        coordinates: [-122.741, 45.5342],
+        trigger_radius_m: 25,
+        companion_note:
+          "The view begins to lengthen. Let your inhale take up a little more space.",
+        type: "view",
+      },
+      {
+        id: "skyline-high-grass",
+        label: "High grass",
+        coordinates: [-122.7361, 45.536],
+        trigger_radius_m: 25,
+        companion_note:
+          "Grass moves in separate pieces, all belonging to one field. Notice where you feel open today.",
+        type: "sensory",
+      },
+      {
+        id: "skyline-far-line",
+        label: "Far line",
+        coordinates: [-122.7314, 45.5378],
+        trigger_radius_m: 25,
+        companion_note:
+          "Place your gaze on the farthest edge you can find. Let the next few steps be spacious.",
+        type: "view",
+      },
+    ],
+  },
+  {
+    id: "open-river-horizon",
+    name: "The River Horizon Walk",
+    state: "open",
+    duration_min: 45,
+    tagline: "A broad crossing and riverbank stretch for widening attention.",
+    tags: ["horizon", "breeze", "expansive"],
+    qualities: {
+      shade: 0.18,
+      quietness: 0.48,
+      openness: 0.9,
+      rhythm_continuity: 0.66,
+      nature_presence: 0.58,
+    },
+    geometry: {
+      type: "LineString",
+      coordinates: [
+        [-122.6753, 45.5284],
+        [-122.6737, 45.5288],
+        [-122.672, 45.5292],
+        [-122.6702, 45.5296],
+        [-122.6687, 45.5302],
+        [-122.6674, 45.531],
+        [-122.6662, 45.5319],
+        [-122.6652, 45.5328],
+        [-122.664, 45.5336],
+        [-122.6628, 45.5344],
+      ],
+    },
+    moments: [
+      {
+        id: "horizon-bridge-breath",
+        label: "Bridge breath",
+        coordinates: [-122.672, 45.5292],
+        trigger_radius_m: 25,
+        companion_note:
+          "Air touches both sides of you. Let your ribs move like there is more room than usual.",
+        type: "view",
+      },
+      {
+        id: "horizon-river-width",
+        label: "River width",
+        coordinates: [-122.6687, 45.5302],
+        trigger_radius_m: 25,
+        companion_note:
+          "The river holds a wide lane of light. Let your attention spread from shoulder to shoulder.",
+        type: "sensory",
+      },
+      {
+        id: "horizon-east-bank",
+        label: "East bank",
+        coordinates: [-122.6652, 45.5328],
+        trigger_radius_m: 25,
+        companion_note:
+          "You arrive on another edge. Notice the small lift that comes with crossing.",
+        type: "threshold",
+      },
+    ],
+  },
+  {
+    id: "flowing-violet-current",
+    name: "The Violet Current",
+    state: "flowing",
+    duration_min: 30,
+    tagline: "A continuous riverside glide for finding motion without pressure.",
+    tags: ["continuous", "river", "fluid"],
+    qualities: {
+      shade: 0.42,
+      quietness: 0.52,
+      openness: 0.74,
+      rhythm_continuity: 0.94,
+      nature_presence: 0.62,
+    },
+    geometry: {
+      type: "LineString",
+      coordinates: [
+        [-122.6672, 45.5078],
+        [-122.6665, 45.5089],
+        [-122.6658, 45.5101],
+        [-122.6653, 45.5114],
+        [-122.6649, 45.5127],
+        [-122.6646, 45.514],
+        [-122.6642, 45.5154],
+        [-122.6636, 45.5167],
+        [-122.6628, 45.5178],
+        [-122.6619, 45.5189],
+      ],
+    },
+    moments: [
+      {
+        id: "current-first-glide",
+        label: "First glide",
+        coordinates: [-122.6665, 45.5089],
+        trigger_radius_m: 25,
+        companion_note:
+          "Your path begins to run beside the river. Feel the easy forward pull without chasing it.",
+        type: "sensory",
+      },
+      {
+        id: "current-long-curve",
+        label: "Long curve",
+        coordinates: [-122.6649, 45.5127],
+        trigger_radius_m: 25,
+        companion_note:
+          "The curve asks for no sharp decision. Let your spine follow its softness.",
+        type: "threshold",
+      },
+      {
+        id: "current-moving-light",
+        label: "Moving light",
+        coordinates: [-122.6628, 45.5178],
+        trigger_radius_m: 25,
+        companion_note:
+          "Small flashes of light move on the water. Notice what in you is already moving easily.",
+        type: "view",
+      },
+    ],
+  },
+  {
+    id: "flowing-lantern-drift",
+    name: "Lantern Drift",
+    state: "flowing",
+    duration_min: 15,
+    tagline: "A short urban meander with gentle turns and unbroken pace.",
+    tags: ["meander", "even", "soft turns"],
+    qualities: {
+      shade: 0.5,
+      quietness: 0.46,
+      openness: 0.52,
+      rhythm_continuity: 0.88,
+      nature_presence: 0.44,
+    },
+    geometry: {
+      type: "LineString",
+      coordinates: [
+        [-122.6554, 45.5196],
+        [-122.6545, 45.5201],
+        [-122.6536, 45.5207],
+        [-122.6528, 45.5214],
+        [-122.652, 45.5221],
+        [-122.6511, 45.5228],
+        [-122.6501, 45.5234],
+        [-122.649, 45.5238],
+        [-122.6479, 45.524],
+        [-122.6468, 45.5241],
+      ],
+    },
+    moments: [
+      {
+        id: "lantern-soft-turn",
+        label: "Soft turn",
+        coordinates: [-122.6536, 45.5207],
+        trigger_radius_m: 25,
+        companion_note:
+          "The street turns without interrupting you. Let your attention turn just as smoothly.",
+        type: "threshold",
+      },
+      {
+        id: "lantern-even-lamps",
+        label: "Even lamps",
+        coordinates: [-122.6511, 45.5228],
+        trigger_radius_m: 25,
+        companion_note:
+          "Repeating posts mark the way in quiet beats. Your steps can become part of that pattern.",
+        type: "sensory",
+      },
+      {
+        id: "lantern-open-corner",
+        label: "Open corner",
+        coordinates: [-122.6479, 45.524],
+        trigger_radius_m: 25,
+        companion_note:
+          "A corner opens and the pace keeps going. Notice the pleasure of not stopping inside.",
+        type: "view",
+      },
+    ],
+  },
+];
