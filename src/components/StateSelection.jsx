@@ -28,6 +28,13 @@ const stateOptions = [
 
 const timeOptions = [15, 30, 45, 60];
 
+const stateColors = {
+  calm: '#7a9e8a',
+  grounded: '#8a7a6a',
+  open: '#6a8fa0',
+  flowing: '#8a8aaa',
+};
+
 function StateSelection() {
   const {
     spatialState,
@@ -58,7 +65,7 @@ function StateSelection() {
     <motion.section
       className="screen state-selection"
       animate={{
-        backgroundColor: spatialState ? `var(--${spatialState})` : 'var(--paper)',
+        backgroundColor: spatialState ? stateColors[spatialState] : '#f6f1e8',
       }}
       transition={{ duration: 4, ease: 'easeInOut' }}
     >
