@@ -1,0 +1,33 @@
+{
+  "name": "calm-spatial-companion",
+  "version": "1.0.0",
+  "description": "A calm spatial companion exploring atmosphere-based walking and running experiences.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xyzhang0628/calm-spatial-companion.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xyzhang0628/calm-spatial-companion/issues"
+  },
+  "homepage": "https://github.com/xyzhang0628/calm-spatial-companion#readme",
+  "dependencies": {
+    "@turf/turf": "^7.3.5",
+    "@vitejs/plugin-react": "^6.0.2",
+    "framer-motion": "^12.40.0",
+    "mapbox-gl": "^3.24.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-map-gl": "^8.1.1",
+    "vite": "^8.0.14"
+  },
+  "private": true,
+  "type": "module"
+}
