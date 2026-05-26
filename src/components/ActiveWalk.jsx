@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as turf from "@turf/turf";
 import CompanionNote from "./CompanionNote";
 import MapView from "./MapView";
@@ -29,6 +29,7 @@ export default function ActiveWalk() {
   const [note, setNote] = useState(null);
   const [progress, setProgress] = useState(0);
   const { position } = useGeolocation(activeRoute, !paused);
+  const positionRef = useRef(position);
   const color = activeRoute ? STATE_COLORS[activeRoute.state] : "#7a9e8a";
 
   const handleMoment = useCallback(
@@ -51,19 +52,24 @@ export default function ActiveWalk() {
   }, [activeRoute, nearbyMoment]);
 
   useEffect(() => {
+    positionRef.current = position;
+  }, [position]);
+
+  useEffect(() => {
     if (!activeRoute) {
       setWalkPhase("browse");
       return undefined;
     }
+    if (paused) return undefined;
     const update = () => {
-      const next = getRouteProgress(activeRoute, position);
+      const next = getRouteProgress(activeRoute, positionRef.current);
       setProgress(next);
       if (next > 0.95) setWalkPhase("arrival");
     };
     update();
     const interval = window.setInterval(update, 10000);
     return () => window.clearInterval(interval);
-  }, [activeRoute, position, setWalkPhase]);
+  }, [activeRoute, paused, setWalkPhase]);
 
   if (!activeRoute) return null;
 

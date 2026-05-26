@@ -65,6 +65,9 @@ export default function StateSelection() {
                   max={DURATIONS.length - 1}
                   step="1"
                   value={selectedIndex}
+                  onPointerDown={() =>
+                    setTimePreference(timePreference ?? DURATIONS[selectedIndex])
+                  }
                   onChange={(event) =>
                     setTimePreference(DURATIONS[Number(event.target.value)])
                   }
