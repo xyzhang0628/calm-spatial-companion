@@ -15,13 +15,13 @@ function CompanionNote({ moment, onDismiss }) {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 100, opacity: 0 }}
-      transition={{ duration: 0.35, ease: 'easeOut' }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       onClick={onDismiss}
     >
       <p className="companion-note__label">{moment.type} moment</p>
       <motion.p
         className="companion-note__text"
-        variants={{ show: { transition: { staggerChildren: 0.03 } } }}
+        variants={{ show: { transition: { staggerChildren: 0.045 } } }}
         initial="hidden"
         animate="show"
       >
@@ -30,7 +30,7 @@ function CompanionNote({ moment, onDismiss }) {
             key={`${word}-${index}`}
             variants={{
               hidden: { opacity: 0, y: 4 },
-              show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+              show: { opacity: 1, y: 0, transition: { duration: 0.28 } },
             }}
           >
             {word}{' '}

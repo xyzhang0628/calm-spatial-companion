@@ -5,6 +5,11 @@ import { routes } from '../data/routes.js';
 import MapView from './MapView.jsx';
 import RouteCard from './RouteCard.jsx';
 
+const sheetTransition = {
+  duration: 0.9,
+  ease: [0.22, 1, 0.36, 1],
+};
+
 function RouteDiscovery() {
   const {
     spatialState,
@@ -56,7 +61,10 @@ function RouteDiscovery() {
         drag="y"
         dragConstraints={{ top: 0, bottom: 160 }}
         dragElastic={0.1}
-        initial={{ y: 160 }}
+        initial={{ y: '100%', opacity: 0.96 }}
+        animate={{ y: 160, opacity: 1 }}
+        exit={{ y: 220, opacity: 0 }}
+        transition={sheetTransition}
       >
         <div className="bottom-sheet__handle" aria-hidden="true" />
         <div className="route-list" ref={listRef} onScroll={handleScroll}>

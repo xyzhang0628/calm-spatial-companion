@@ -9,9 +9,14 @@ const ActiveWalk = lazy(() => import('./components/ActiveWalk.jsx'));
 const RouteDiscovery = lazy(() => import('./components/RouteDiscovery.jsx'));
 
 const transitions = {
-  initial: { opacity: 0, y: 8 },
+  initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
+  exit: { opacity: 0, y: -6 },
+};
+
+const screenTransition = {
+  duration: 0.72,
+  ease: [0.22, 1, 0.36, 1],
 };
 
 function MapFallback() {
@@ -80,7 +85,7 @@ function App() {
           initial={false}
           animate="animate"
           exit="exit"
-          transition={{ duration: 0.4, ease: 'easeOut' }}
+          transition={screenTransition}
         >
           <ScreenErrorBoundary resetKey={walkPhase}>{screens[walkPhase]}</ScreenErrorBoundary>
         </motion.div>

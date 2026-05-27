@@ -9,6 +9,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 const INITIAL_VIEW_STATE = { longitude: -117.71, latitude: 34.102, zoom: 14.5, pitch: 0, bearing: 0 };
 const routeFeature = (route) => ({ type: 'Feature', properties: { id: route.id }, geometry: route.geometry });
 const lineLayout = { 'line-cap': 'round', 'line-join': 'round' };
+const CAMERA_EASE = (time) => 1 - ((1 - time) ** 3);
 
 function isNoisyLabel(layerId) {
   return (
@@ -68,6 +69,7 @@ function walkedFeature(route, progress) {
 function MapView({ routes = [], activeRoute, position, progress = 0, mode = 'browse' }) {
   const mapRef = useRef(null);
   const [mapError, setMapError] = useState(null);
+  const [routeDrawProgress, setRouteDrawProgress] = useState(0);
   const token = import.meta.env.VITE_MAPBOX_TOKEN;
   const stateColor = STATE_COLORS[activeRoute?.state] ?? STATE_COLORS.calm;
   const routeCollection = useMemo(
@@ -91,9 +93,40 @@ function MapView({ routes = [], activeRoute, position, progress = 0, mode = 'bro
         mode === 'browse'
           ? { top: 120, bottom: 280, left: 40, right: 40 }
           : { top: 120, bottom: 180, left: 48, right: 48 },
-      duration: 800,
+      duration: 1400,
+      easing: CAMERA_EASE,
     });
   }, [activeRoute, mode]);
+
+  useEffect(() => {
+    if (!activeRoute) return undefined;
+
+    let frameId;
+    const startedAt = performance.now();
+    const duration = mode === 'browse' ? 1800 : 1200;
+
+    const draw = (now) => {
+      const nextProgress = Math.min((now - startedAt) / duration, 1);
+      setRouteDrawProgress(CAMERA_EASE(nextProgress));
+      if (nextProgress < 1) frameId = window.requestAnimationFrame(draw);
+    };
+
+    setRouteDrawProgress(0);
+    frameId = window.requestAnimationFrame(draw);
+    return () => window.cancelAnimationFrame(frameId);
+  }, [activeRoute?.id, mode]);
+
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map || mode !== 'walking' || !position) return;
+
+    map.easeTo({
+      center: position,
+      duration: 1800,
+      easing: CAMERA_EASE,
+      essential: false,
+    });
+  }, [mode, position]);
 
   if (!token || mapError) {
     return (
@@ -126,12 +159,18 @@ function MapView({ routes = [], activeRoute, position, progress = 0, mode = 'bro
       </Source>
 
       {activeFeature && (
-        <Source id="active-route" type="geojson" data={activeFeature}>
+        <Source id="active-route" type="geojson" data={activeFeature} lineMetrics>
           <Layer
             id="active-route-line"
             type="line"
             paint={{
-              'line-color': stateColor,
+              'line-gradient': [
+                'step',
+                ['line-progress'],
+                stateColor,
+                routeDrawProgress,
+                'rgba(122, 122, 122, 0)',
+              ],
               'line-width': mode === 'browse' ? 4 : 3,
               'line-opacity': mode === 'browse' ? 0.7 : 0.5,
             }}

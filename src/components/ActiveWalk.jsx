@@ -9,6 +9,11 @@ import CompanionNote from './CompanionNote.jsx';
 import MapView from './MapView.jsx';
 import ProgressArc from './ProgressArc.jsx';
 
+const gentleTransition = {
+  duration: 0.78,
+  ease: [0.22, 1, 0.36, 1],
+};
+
 function ActiveWalk() {
   const { activeRoute, addTriggeredMoment, setWalkPhase, triggeredMoments } = useWalk();
   const route = activeRoute ?? routes[0];
@@ -69,7 +74,12 @@ function ActiveWalk() {
     <motion.section className="screen active-walk">
       <MapView routes={[route]} activeRoute={route} mode="walking" position={position} progress={progress} />
 
-      <div className="walk-top-bar">
+      <motion.div
+        className="walk-top-bar"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ...gentleTransition, delay: 0.18 }}
+      >
         <h1>{route.name}</h1>
         <button
           type="button"
@@ -79,10 +89,18 @@ function ActiveWalk() {
         >
           {isPaused ? '▶' : 'Ⅱ'}
         </button>
-      </div>
+      </motion.div>
 
       <AnimatePresence>
-        {isPaused && <motion.div className="pause-dim" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} />}
+        {isPaused && (
+          <motion.div
+            className="pause-dim"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+          />
+        )}
       </AnimatePresence>
 
       <AnimatePresence>
@@ -93,9 +111,9 @@ function ActiveWalk() {
 
       <motion.div
         className="walking-card"
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 140, damping: 20 }}
+        transition={{ ...gentleTransition, delay: 0.28 }}
       >
         <p>{currentMoment?.label ?? route.name}</p>
         <ProgressArc progress={progress} />
