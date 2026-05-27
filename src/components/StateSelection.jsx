@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { routes } from '../data/routes.js';
 import { useWalk } from '../context/WalkContext.jsx';
 
@@ -38,7 +38,6 @@ function StateSelection() {
     setSelectedDuration,
     resetTriggeredMoments,
   } = useWalk();
-  const [durationTouched, setDurationTouched] = useState(false);
   const selectedOption = stateOptions.find((option) => option.state === spatialState);
   const selectedRoute = useMemo(() => {
     const stateRoutes = routes.filter((route) => route.state === spatialState);
@@ -48,7 +47,6 @@ function StateSelection() {
   function handleStateSelect(state) {
     setSpatialState(state);
     setActiveRoute(routes.find((route) => route.state === state) ?? null);
-    setDurationTouched(false);
     resetTriggeredMoments();
   }
 
@@ -110,10 +108,7 @@ function StateSelection() {
                     key={time}
                     type="button"
                     className={selectedDuration === time ? 'is-selected' : ''}
-                    onClick={() => {
-                      setSelectedDuration(time);
-                      setDurationTouched(true);
-                    }}
+                    onClick={() => setSelectedDuration(time)}
                   >
                     {time}
                   </button>
@@ -121,7 +116,7 @@ function StateSelection() {
               </div>
 
               <AnimatePresence>
-                {durationTouched && (
+                {selectedRoute && (
                   <motion.button
                     type="button"
                     className="primary-action"
