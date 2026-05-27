@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  base: './',
   optimizeDeps: { exclude: ['mapbox-gl'] },
   server: {
     host: '0.0.0.0',
