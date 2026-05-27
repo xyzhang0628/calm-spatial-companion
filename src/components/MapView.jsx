@@ -10,18 +10,37 @@ const INITIAL_VIEW_STATE = { longitude: -117.71, latitude: 34.102, zoom: 14.5, p
 const routeFeature = (route) => ({ type: 'Feature', properties: { id: route.id }, geometry: route.geometry });
 const lineLayout = { 'line-cap': 'round', 'line-join': 'round' };
 
+function isNoisyLabel(layerId) {
+  return (
+    layerId.includes('poi-label') ||
+    layerId.includes('transit-label') ||
+    layerId.includes('airport-label') ||
+    layerId.includes('settlement-subdivision-label')
+  );
+}
+
 function softenMapStyle(map) {
   (map.getStyle()?.layers ?? []).forEach((layer) => {
     try {
-      const shouldHide =
-        layer.id.includes('poi-label') ||
-        layer.id.includes('transit-label') ||
-        layer.id.includes('road-label') ||
-        layer.id.includes('road-number');
+      if (isNoisyLabel(layer.id)) {
+        map.setLayoutProperty(layer.id, 'visibility', 'none');
+        return;
+      }
 
-      if (shouldHide) map.setLayoutProperty(layer.id, 'visibility', 'none');
-      if (layer.type === 'fill' && layer.paint?.['fill-color']) map.setPaintProperty(layer.id, 'fill-color', '#f4f4f2');
-      if (layer.type === 'line' && layer.paint?.['line-color']) map.setPaintProperty(layer.id, 'line-color', '#d8d8d4');
+      if (layer.type === 'symbol') {
+        if (layer.paint?.['text-color']) map.setPaintProperty(layer.id, 'text-color', '#74746f');
+        if (layer.paint?.['text-halo-color']) map.setPaintProperty(layer.id, 'text-halo-color', '#ffffff');
+        if (layer.paint?.['text-opacity']) map.setPaintProperty(layer.id, 'text-opacity', 0.82);
+      }
+
+      if (layer.type === 'fill' && layer.paint?.['fill-color']) {
+        map.setPaintProperty(layer.id, 'fill-opacity', layer.id.includes('landuse') ? 0.45 : 0.72);
+      }
+
+      if (layer.type === 'line' && layer.paint?.['line-color']) {
+        map.setPaintProperty(layer.id, 'line-color', '#d9d9d5');
+        if (layer.paint?.['line-opacity']) map.setPaintProperty(layer.id, 'line-opacity', 0.58);
+      }
     } catch {
       /* skip immutable base layer expressions */
     }
