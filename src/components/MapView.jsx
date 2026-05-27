@@ -153,8 +153,16 @@ function MapView({ routes = [], activeRoute, position, progress = 0, mode = 'bro
 
       {mode === 'browse' &&
         activeRoute?.moments.map((moment) => (
-          <Marker key={moment.id} longitude={moment.coordinates[0]} latitude={moment.coordinates[1]}>
-            <span className="moment-marker" aria-label={moment.label} />
+          <Marker
+            key={moment.id}
+            longitude={moment.coordinates[0]}
+            latitude={moment.coordinates[1]}
+            anchor="bottom"
+          >
+            <div className="moment-checkpoint" aria-label={moment.label}>
+              <span className="moment-marker" />
+              <span className="moment-marker__label">{moment.prompt ?? moment.label}</span>
+            </div>
           </Marker>
         ))}
 

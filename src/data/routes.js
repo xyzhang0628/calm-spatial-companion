@@ -38,8 +38,19 @@ export const routes = [
     },
     moments: [
       {
+        id: 'pomona-tree-entry',
+        label: 'Tree entry',
+        prompt: 'enter canopy',
+        coordinates: [-117.7147, 34.0993],
+        trigger_radius_m: 25,
+        companion_note:
+          'The campus path leaves the street edge and moves under older branches. The light breaks into shade before the quad opens.',
+        type: 'threshold',
+      },
+      {
         id: 'marston-quad-canopy',
         label: 'Marston canopy',
+        prompt: 'quad shade',
         coordinates: [-117.7138, 34.0999],
         trigger_radius_m: 25,
         companion_note:
@@ -49,6 +60,7 @@ export const routes = [
       {
         id: 'pomona-arcade-edge',
         label: 'Arcade edge',
+        prompt: 'narrow edge',
         coordinates: [-117.7119, 34.0986],
         trigger_radius_m: 25,
         companion_note:
@@ -58,6 +70,7 @@ export const routes = [
       {
         id: 'college-way-return',
         label: 'College Way return',
+        prompt: 'return trees',
         coordinates: [-117.7154, 34.0985],
         trigger_radius_m: 25,
         companion_note:
@@ -100,6 +113,7 @@ export const routes = [
       {
         id: 'scripps-garden-wall',
         label: 'Garden wall',
+        prompt: 'garden threshold',
         coordinates: [-117.71, 34.1037],
         trigger_radius_m: 25,
         companion_note:
@@ -109,6 +123,7 @@ export const routes = [
       {
         id: 'courtyard-stone',
         label: 'Courtyard stone',
+        prompt: 'stone court',
         coordinates: [-117.708, 34.1044],
         trigger_radius_m: 25,
         companion_note:
@@ -116,8 +131,19 @@ export const routes = [
         type: 'sensory',
       },
       {
+        id: 'quiet-courtyard-corner',
+        label: 'Courtyard corner',
+        prompt: 'quiet corner',
+        coordinates: [-117.7064, 34.1032],
+        trigger_radius_m: 25,
+        companion_note:
+          'The path bends close to planted walls and a quieter court. Edges, shade, and stone make the space feel smaller in scale.',
+        type: 'threshold',
+      },
+      {
         id: 'scripps-east-garden',
         label: 'East garden turn',
+        prompt: 'garden turn',
         coordinates: [-117.7069, 34.1025],
         trigger_radius_m: 25,
         companion_note:
@@ -160,6 +186,7 @@ export const routes = [
       {
         id: 'cmc-lawn-margin',
         label: 'Lawn margin',
+        prompt: 'cross lawn',
         coordinates: [-117.7077, 34.1009],
         trigger_radius_m: 25,
         companion_note:
@@ -169,6 +196,7 @@ export const routes = [
       {
         id: 'columbia-open-crossing',
         label: 'Open crossing',
+        prompt: 'wide crossing',
         coordinates: [-117.7054, 34.1018],
         trigger_radius_m: 25,
         companion_note:
@@ -176,8 +204,19 @@ export const routes = [
         type: 'threshold',
       },
       {
+        id: 'open-sky-corner',
+        label: 'Open sky corner',
+        prompt: 'sky exposure',
+        coordinates: [-117.7053, 34.1033],
+        trigger_radius_m: 25,
+        companion_note:
+          'The corner opens above the lawn with few branches overhead. Rooflines stay low and the sky becomes the dominant surface.',
+        type: 'view',
+      },
+      {
         id: 'north-lawn-sky',
         label: 'North lawn sky',
+        prompt: 'north lawn',
         coordinates: [-117.7065, 34.1034],
         trigger_radius_m: 25,
         companion_note:
@@ -220,6 +259,7 @@ export const routes = [
       {
         id: 'mudd-north-straightaway',
         label: 'North straightaway',
+        prompt: 'straight line',
         coordinates: [-117.709, 34.1066],
         trigger_radius_m: 25,
         companion_note:
@@ -229,6 +269,7 @@ export const routes = [
       {
         id: 'lab-building-gap',
         label: 'Building gap',
+        prompt: 'building gap',
         coordinates: [-117.7064, 34.106],
         trigger_radius_m: 25,
         companion_note:
@@ -236,8 +277,19 @@ export const routes = [
         type: 'threshold',
       },
       {
+        id: 'north-path-bend',
+        label: 'North path bend',
+        prompt: 'soft bend',
+        coordinates: [-117.7061, 34.1044],
+        trigger_radius_m: 25,
+        companion_note:
+          'The walkway bends without breaking the pace. Planting strips and building edges keep the route moving as one line.',
+        type: 'sensory',
+      },
+      {
         id: 'mudd-return-curve',
         label: 'Return curve',
+        prompt: 'return curve',
         coordinates: [-117.71, 34.1048],
         trigger_radius_m: 25,
         companion_note:
