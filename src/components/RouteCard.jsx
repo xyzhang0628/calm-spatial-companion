@@ -15,6 +15,11 @@ function RouteCard({ route, isActive, onSelect, onBegin }) {
             <span key={tag}>{tag}</span>
           ))}
         </div>
+        <div className="route-card__indicators" aria-label="Spatial qualities">
+          {route.spatial_indicators.map((indicator) => (
+            <span key={indicator}>{indicator}</span>
+          ))}
+        </div>
       </button>
 
       {isActive && (

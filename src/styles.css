@@ -296,6 +296,35 @@ button {
   padding: 6px 10px;
 }
 
+.route-card__indicators {
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+}
+
+.route-card__indicators span {
+  align-items: center;
+  color: #7a7a74;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.route-card__indicators span::before {
+  background: color-mix(in srgb, var(--state-color) 42%, #ffffff);
+  border-radius: 50%;
+  content: '';
+  height: 4px;
+  margin-right: 6px;
+  opacity: 0.75;
+  width: 4px;
+}
+
 .begin-button {
   font-size: 15px;
   height: 48px;

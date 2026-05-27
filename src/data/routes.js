@@ -13,6 +13,7 @@ export const routes = [
     duration_min: 30,
     tagline: 'A shaded Pomona loop through Marston Quad and old campus paths.',
     tags: ['Marston Quad', 'deep shade', 'campus paths'],
+    spatial_indicators: ['high tree cover', 'few crossings', 'low sound', 'enclosed shade'],
     qualities: {
       shade: 0.9,
       quietness: 0.82,
@@ -86,6 +87,7 @@ export const routes = [
     duration_min: 30,
     tagline: 'Stone, planting beds, and quiet Scripps courtyards underfoot.',
     tags: ['Scripps gardens', 'stone paths', 'courtyards'],
+    spatial_indicators: ['garden edges', 'textured path', 'low foot traffic', 'more enclosed'],
     qualities: {
       shade: 0.76,
       quietness: 0.88,
@@ -159,6 +161,7 @@ export const routes = [
     duration_min: 30,
     tagline: 'A CMC circuit of open lawns, broader walks, and sky exposure.',
     tags: ['open lawns', 'wide walks', 'sky view'],
+    spatial_indicators: ['wide sky', 'open lawns', 'moderate crossings', 'visible edges'],
     qualities: {
       shade: 0.32,
       quietness: 0.58,
@@ -232,6 +235,7 @@ export const routes = [
     duration_min: 30,
     tagline: 'A continuous Harvey Mudd path across north campus edges.',
     tags: ['north campus', 'long paths', 'steady turns'],
+    spatial_indicators: ['steady rhythm', 'long segments', 'medium shade', 'light traffic'],
     qualities: {
       shade: 0.52,
       quietness: 0.66,
