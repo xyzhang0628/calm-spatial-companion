@@ -1,17 +1,51 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect } from 'react';
-import ActiveWalk from './components/ActiveWalk.jsx';
+import { Component, lazy, Suspense, useEffect } from 'react';
 import Arrival from './components/Arrival.jsx';
-import RouteDiscovery from './components/RouteDiscovery.jsx';
 import StateSelection from './components/StateSelection.jsx';
 import { useWalk } from './context/WalkContext.jsx';
 import { STATE_COLORS } from './data/routes.js';
+
+const ActiveWalk = lazy(() => import('./components/ActiveWalk.jsx'));
+const RouteDiscovery = lazy(() => import('./components/RouteDiscovery.jsx'));
 
 const transitions = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -8 },
 };
+
+function MapFallback() {
+  return (
+    <section className="screen map-fallback">
+      <p>Map view is unavailable right now. Please check the Mapbox token and refresh.</p>
+    </section>
+  );
+}
+
+class ScreenErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidUpdate(previousProps) {
+    if (previousProps.resetKey !== this.props.resetKey && this.state.hasError) {
+      this.setState({ hasError: false });
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <MapFallback />;
+    }
+
+    return this.props.children;
+  }
+}
 
 function App() {
   const { spatialState, walkPhase } = useWalk();
@@ -23,8 +57,16 @@ function App() {
 
   const screens = {
     select: <StateSelection />,
-    browse: <RouteDiscovery />,
-    walking: <ActiveWalk />,
+    browse: (
+      <Suspense fallback={<MapFallback />}>
+        <RouteDiscovery />
+      </Suspense>
+    ),
+    walking: (
+      <Suspense fallback={<MapFallback />}>
+        <ActiveWalk />
+      </Suspense>
+    ),
     arrival: <Arrival />,
   };
 
@@ -35,12 +77,12 @@ function App() {
           key={walkPhase}
           className="screen-frame"
           variants={transitions}
-          initial="initial"
+          initial={false}
           animate="animate"
           exit="exit"
           transition={{ duration: 0.4, ease: 'easeOut' }}
         >
-          {screens[walkPhase]}
+          <ScreenErrorBoundary resetKey={walkPhase}>{screens[walkPhase]}</ScreenErrorBoundary>
         </motion.div>
       </AnimatePresence>
     </main>

@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Map, { Layer, Marker, Source } from 'react-map-gl';
-import mapboxgl from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl/esm';
 import { along, length, lineString } from '@turf/turf';
 import { STATE_COLORS } from '../data/routes.js';
 
@@ -48,6 +48,8 @@ function walkedFeature(route, progress) {
 
 function MapView({ routes = [], activeRoute, position, progress = 0, mode = 'browse' }) {
   const mapRef = useRef(null);
+  const [mapError, setMapError] = useState(null);
+  const token = import.meta.env.VITE_MAPBOX_TOKEN;
   const stateColor = STATE_COLORS[activeRoute?.state] ?? STATE_COLORS.calm;
   const routeCollection = useMemo(
     () => ({ type: 'FeatureCollection', features: routes.map(routeFeature) }),
@@ -74,17 +76,26 @@ function MapView({ routes = [], activeRoute, position, progress = 0, mode = 'bro
     });
   }, [activeRoute, mode]);
 
+  if (!token || mapError) {
+    return (
+      <div className="map-fallback map-fallback--inline">
+        <p>{mapError ? 'Mapbox could not load this map.' : 'Mapbox token is missing.'}</p>
+      </div>
+    );
+  }
+
   return (
     <Map
       ref={mapRef}
       mapLib={mapboxgl}
-      mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+      mapboxAccessToken={token}
       initialViewState={INITIAL_VIEW_STATE}
       mapStyle="mapbox://styles/mapbox/light-v11"
       attributionControl={false}
       dragRotate={false}
       touchPitch={false}
       onLoad={(event) => softenMapStyle(event.target)}
+      onError={(event) => setMapError(event.error ?? new Error('Mapbox failed to load'))}
     >
       <Source id="routes" type="geojson" data={routeCollection}>
         <Layer
