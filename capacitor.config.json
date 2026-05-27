@@ -1,0 +1,11 @@
+{
+  "appId": "com.calmspatial.companion",
+  "appName": "A Calm Spatial Companion",
+  "webDir": "dist",
+  "ios": {
+    "contentInset": "always"
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}

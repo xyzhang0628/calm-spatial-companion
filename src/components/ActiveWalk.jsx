@@ -1,71 +1,138 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { length, nearestPointOnLine, point } from '@turf/turf';
 import { useWalk } from '../context/WalkContext.jsx';
 import { routes } from '../data/routes.js';
+import { useGeolocation } from '../hooks/useGeolocation.js';
+import { useMomentDetection } from '../hooks/useMomentDetection.js';
 import CompanionNote from './CompanionNote.jsx';
+import MapView from './MapView.jsx';
 import ProgressArc from './ProgressArc.jsx';
 
+const gentleTransition = {
+  duration: 0.78,
+  ease: [0.22, 1, 0.36, 1],
+};
+const NOTE_EMERGE_DELAY_MS = 2200;
+
 function ActiveWalk() {
-  const { activeRoute, setWalkPhase } = useWalk();
+  const { activeRoute, addTriggeredMoment, setWalkPhase, triggeredMoments } = useWalk();
   const route = activeRoute ?? routes[0];
   const [isPaused, setIsPaused] = useState(false);
-  const [showNote, setShowNote] = useState(false);
+  const [currentMoment, setCurrentMoment] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const positionRef = useRef(null);
+  const noteTimerRef = useRef(null);
+  const { position } = useGeolocation(route, { enabled: !isPaused });
 
   useEffect(() => {
-    const showTimer = window.setTimeout(() => setShowNote(true), 4000);
-    const dismissTimer = window.setTimeout(() => setShowNote(false), 12000);
+    positionRef.current = position;
+  }, [position]);
 
-    return () => {
-      window.clearTimeout(showTimer);
-      window.clearTimeout(dismissTimer);
+  const handleMoment = useCallback(
+    (moment) => {
+      addTriggeredMoment(moment.id);
+      window.clearTimeout(noteTimerRef.current);
+      noteTimerRef.current = window.setTimeout(() => {
+        setCurrentMoment(moment);
+      }, NOTE_EMERGE_DELAY_MS);
+    },
+    [addTriggeredMoment],
+  );
+
+  useEffect(
+    () => () => window.clearTimeout(noteTimerRef.current),
+    [route.id],
+  );
+
+  useEffect(() => {
+    if (isPaused) {
+      window.clearTimeout(noteTimerRef.current);
+    }
+  }, [isPaused]);
+
+  useMomentDetection({
+    activeRoute: route,
+    position,
+    triggeredMoments,
+    onMoment: handleMoment,
+    enabled: !isPaused,
+  });
+
+  useEffect(() => {
+    if (isPaused) {
+      return undefined;
+    }
+
+    const updateProgress = () => {
+      if (!positionRef.current) {
+        return;
+      }
+
+      const totalKm = length(route.geometry, { units: 'kilometers' });
+      const snapped = nearestPointOnLine(route.geometry, point(positionRef.current), {
+        units: 'kilometers',
+      });
+      const nextProgress = totalKm ? snapped.properties.location / totalKm : 0;
+      setProgress(Math.min(nextProgress, 1));
+
+      if (nextProgress > 0.95) {
+        setWalkPhase('arrival');
+      }
     };
-  }, []);
+
+    updateProgress();
+    const timer = window.setInterval(updateProgress, 10000);
+    return () => window.clearInterval(timer);
+  }, [isPaused, route, setWalkPhase]);
 
   return (
-    <motion.section
-      className="screen active-walk"
-      animate={{ opacity: isPaused ? 0.6 : 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      <button
-        type="button"
-        className={`pause-button ${isPaused ? 'is-paused' : ''}`}
-        onClick={() => setIsPaused((paused) => !paused)}
-      >
-        {isPaused ? 'Resume' : 'Pause'}
-      </button>
+    <motion.section className="screen active-walk">
+      <MapView routes={[route]} activeRoute={route} mode="walking" position={position} progress={progress} />
 
-      <div className="map-placeholder active-walk__map">
-        <span>Live map loads here — Phase 2</span>
-      </div>
+      <motion.div
+        className="walk-top-bar"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ...gentleTransition, delay: 0.18 }}
+      >
+        <h1>{route.name}</h1>
+        <button
+          type="button"
+          className="pause-button"
+          aria-label={isPaused ? 'Resume walk' : 'Pause walk'}
+          onClick={() => setIsPaused((paused) => !paused)}
+        >
+          {isPaused ? '▶' : 'Ⅱ'}
+        </button>
+      </motion.div>
 
       <AnimatePresence>
-        {showNote && (
-          <CompanionNote>
-            Notice the soft edge of your route. Let the next turn arrive slowly.
-          </CompanionNote>
+        {isPaused && (
+          <motion.div
+            className="pause-dim"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {currentMoment && (
+          <CompanionNote moment={currentMoment} onDismiss={() => setCurrentMoment(null)} />
         )}
       </AnimatePresence>
 
       <motion.div
         className="walking-card"
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 140, damping: 20 }}
+        transition={{ ...gentleTransition, delay: 0.28 }}
       >
-        <div>
-          <p className="eyebrow">Now walking</p>
-          <h1>{route.name}</h1>
-          <p>{route.tagline}</p>
-        </div>
-        <ProgressArc />
-        <button
-          type="button"
-          className="secondary-action"
-          onClick={() => setWalkPhase('arrival')}
-        >
-          I've arrived
-        </button>
+        <p>{currentMoment?.label ?? route.name}</p>
+        <ProgressArc progress={progress} />
       </motion.div>
     </motion.section>
   );
