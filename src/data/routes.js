@@ -45,7 +45,7 @@ export const routes = [
         coordinates: [-117.7147, 34.0993],
         trigger_radius_m: 25,
         companion_note:
-          'The campus path leaves the street edge and moves under older branches. The light breaks into shade before the quad opens.',
+          'The campus path leaves the street edge and passes under older branches. Light breaks into shade before the quad opens.',
         type: 'threshold',
       },
       {
@@ -55,7 +55,7 @@ export const routes = [
         coordinates: [-117.7138, 34.0999],
         trigger_radius_m: 25,
         companion_note:
-          'The tree crowns gather over the quad and break the light into smaller pieces. Sound settles into the grass before it reaches the walkway.',
+          'Tree crowns gather over the quad and break the light into smaller pieces. Sound sits lower across the grass and walkway.',
         type: 'sensory',
       },
       {
@@ -65,7 +65,7 @@ export const routes = [
         coordinates: [-117.7119, 34.0986],
         trigger_radius_m: 25,
         companion_note:
-          'A line of buildings makes a narrow sheltered edge here. The path briefly trades open lawn for shade, wall, and footsteps.',
+          'A line of buildings makes a narrow sheltered edge here. The path trades open lawn for shade, wall, and footsteps.',
         type: 'threshold',
       },
       {
@@ -75,7 +75,7 @@ export const routes = [
         coordinates: [-117.7154, 34.0985],
         trigger_radius_m: 25,
         companion_note:
-          'The loop returns beside older trees and slow campus crossings. Notice how the canopy makes the street feel narrower than it is.',
+          'The loop returns beside older trees and slow campus crossings. The canopy makes the street read narrower than it is.',
         type: 'pause',
       },
     ],
@@ -119,7 +119,7 @@ export const routes = [
         coordinates: [-117.71, 34.1037],
         trigger_radius_m: 25,
         companion_note:
-          'Low walls and planted edges hold the path close to the ground. The surface changes from open walk to garden threshold.',
+          'Low walls and planted edges hold the path close to the ground. The surface shifts from open walk to garden threshold.',
         type: 'threshold',
       },
       {
@@ -129,7 +129,7 @@ export const routes = [
         coordinates: [-117.708, 34.1044],
         trigger_radius_m: 25,
         companion_note:
-          'Stone, soil, and clipped planting make a compact room outside. Each step has a slightly different texture beneath it.',
+          'Stone, soil, and clipped planting make a compact room outside. The ground texture changes in small increments.',
         type: 'sensory',
       },
       {
@@ -139,7 +139,7 @@ export const routes = [
         coordinates: [-117.7064, 34.1032],
         trigger_radius_m: 25,
         companion_note:
-          'The path bends close to planted walls and a quieter court. Edges, shade, and stone make the space feel smaller in scale.',
+          'The path bends close to planted walls and a quieter court. Edges, shade, and stone bring the scale inward.',
         type: 'threshold',
       },
       {
@@ -149,7 +149,7 @@ export const routes = [
         coordinates: [-117.7069, 34.1025],
         trigger_radius_m: 25,
         companion_note:
-          'The turn opens to a smaller garden edge, then closes again near the buildings. The route gathers itself through texture rather than distance.',
+          'The turn opens to a smaller garden edge, then closes again near the buildings. The route gathers through texture rather than distance.',
         type: 'pause',
       },
     ],
@@ -193,7 +193,7 @@ export const routes = [
         coordinates: [-117.7077, 34.1009],
         trigger_radius_m: 25,
         companion_note:
-          'The lawn pulls the view outward and leaves more sky above the path. Buildings sit back from the edge instead of pressing in.',
+          'The lawn pulls the view outward and leaves more sky above the path. Buildings sit back from the edge.',
         type: 'view',
       },
       {
@@ -203,7 +203,7 @@ export const routes = [
         coordinates: [-117.7054, 34.1018],
         trigger_radius_m: 25,
         companion_note:
-          'The walkway meets a wider street rhythm here. Pavement, curb, and low campus edges make a longer horizontal line.',
+          'The walkway meets a wider street rhythm here. Pavement, curb, and low campus edges form a longer horizontal line.',
         type: 'threshold',
       },
       {
@@ -213,7 +213,7 @@ export const routes = [
         coordinates: [-117.7053, 34.1033],
         trigger_radius_m: 25,
         companion_note:
-          'The corner opens above the lawn with few branches overhead. Rooflines stay low and the sky becomes the dominant surface.',
+          'The corner opens above the lawn with few branches overhead. Rooflines stay low, and the sky becomes the dominant surface.',
         type: 'view',
       },
       {

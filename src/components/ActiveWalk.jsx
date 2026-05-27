@@ -13,6 +13,7 @@ const gentleTransition = {
   duration: 0.78,
   ease: [0.22, 1, 0.36, 1],
 };
+const NOTE_EMERGE_DELAY_MS = 2200;
 
 function ActiveWalk() {
   const { activeRoute, addTriggeredMoment, setWalkPhase, triggeredMoments } = useWalk();
@@ -21,6 +22,7 @@ function ActiveWalk() {
   const [currentMoment, setCurrentMoment] = useState(null);
   const [progress, setProgress] = useState(0);
   const positionRef = useRef(null);
+  const noteTimerRef = useRef(null);
   const { position } = useGeolocation(route, { enabled: !isPaused });
 
   useEffect(() => {
@@ -30,10 +32,24 @@ function ActiveWalk() {
   const handleMoment = useCallback(
     (moment) => {
       addTriggeredMoment(moment.id);
-      setCurrentMoment(moment);
+      window.clearTimeout(noteTimerRef.current);
+      noteTimerRef.current = window.setTimeout(() => {
+        setCurrentMoment(moment);
+      }, NOTE_EMERGE_DELAY_MS);
     },
     [addTriggeredMoment],
   );
+
+  useEffect(
+    () => () => window.clearTimeout(noteTimerRef.current),
+    [route.id],
+  );
+
+  useEffect(() => {
+    if (isPaused) {
+      window.clearTimeout(noteTimerRef.current);
+    }
+  }, [isPaused]);
 
   useMomentDetection({
     activeRoute: route,

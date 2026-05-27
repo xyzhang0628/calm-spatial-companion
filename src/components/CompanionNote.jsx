@@ -5,7 +5,7 @@ function CompanionNote({ moment, onDismiss }) {
   const words = moment.companion_note.split(' ');
 
   useEffect(() => {
-    const timer = window.setTimeout(onDismiss, 8000);
+    const timer = window.setTimeout(onDismiss, 11000);
     return () => window.clearTimeout(timer);
   }, [onDismiss]);
 
@@ -15,13 +15,13 @@ function CompanionNote({ moment, onDismiss }) {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 100, opacity: 0 }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
       onClick={onDismiss}
     >
-      <p className="companion-note__label">{moment.type} moment</p>
+      <p className="companion-note__label">spatial cue</p>
       <motion.p
         className="companion-note__text"
-        variants={{ show: { transition: { staggerChildren: 0.045 } } }}
+        variants={{ show: { transition: { staggerChildren: 0.055 } } }}
         initial="hidden"
         animate="show"
       >
@@ -30,7 +30,7 @@ function CompanionNote({ moment, onDismiss }) {
             key={`${word}-${index}`}
             variants={{
               hidden: { opacity: 0, y: 4 },
-              show: { opacity: 1, y: 0, transition: { duration: 0.28 } },
+              show: { opacity: 1, y: 0, transition: { duration: 0.34 } },
             }}
           >
             {word}{' '}
