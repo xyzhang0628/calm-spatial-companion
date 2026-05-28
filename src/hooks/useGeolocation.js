@@ -11,6 +11,7 @@ function firstCoordinate(route) {
 export function useGeolocation(activeRoute, { enabled = true, useRealLocation = false } = {}) {
   const [position, setPosition] = useState(() => firstCoordinate(activeRoute));
   const [isSimulated, setIsSimulated] = useState(true);
+  const [progress, setProgress] = useState(0);
   const routeLine = useMemo(
     () => (activeRoute ? lineString(activeRoute.geometry.coordinates) : null),
     [activeRoute],
@@ -18,6 +19,7 @@ export function useGeolocation(activeRoute, { enabled = true, useRealLocation = 
 
   useEffect(() => {
     setPosition(firstCoordinate(activeRoute));
+    setProgress(0);
   }, [activeRoute]);
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export function useGeolocation(activeRoute, { enabled = true, useRealLocation = 
       const watchId = navigator.geolocation.watchPosition(
         (event) => {
           setIsSimulated(false);
+          setProgress(0);
           setPosition([event.coords.longitude, event.coords.latitude]);
         },
         () => setIsSimulated(true),
@@ -40,18 +43,24 @@ export function useGeolocation(activeRoute, { enabled = true, useRealLocation = 
 
     setIsSimulated(true);
     let step = 0;
+    let timer;
     const totalKm = length(routeLine, { units: 'kilometers' });
     const tick = () => {
       const ratio = Math.min(step / SIMULATED_WALK_STEPS, 1);
       const nextPoint = along(routeLine, totalKm * ratio, { units: 'kilometers' });
+      setProgress(ratio);
       setPosition(nextPoint.geometry.coordinates);
       step += 1;
+
+      if (ratio >= 1 && timer) {
+        window.clearInterval(timer);
+      }
     };
 
     tick();
-    const timer = window.setInterval(tick, SIMULATED_WALK_INTERVAL_MS);
+    timer = window.setInterval(tick, SIMULATED_WALK_INTERVAL_MS);
     return () => window.clearInterval(timer);
   }, [activeRoute, enabled, routeLine, useRealLocation]);
 
-  return { position, isSimulated };
+  return { position, isSimulated, progress };
 }

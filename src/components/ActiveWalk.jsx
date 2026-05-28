@@ -24,7 +24,11 @@ function ActiveWalk() {
   const [progress, setProgress] = useState(0);
   const positionRef = useRef(null);
   const noteTimerRef = useRef(null);
-  const { position } = useGeolocation(route, { enabled: !isPaused });
+  const {
+    position,
+    isSimulated,
+    progress: simulatedProgress,
+  } = useGeolocation(route, { enabled: !isPaused });
 
   useEffect(() => {
     positionRef.current = position;
@@ -61,7 +65,20 @@ function ActiveWalk() {
   });
 
   useEffect(() => {
-    if (isPaused) {
+    if (!isSimulated || isPaused) {
+      return;
+    }
+
+    const nextProgress = Math.min(simulatedProgress, 1);
+    setProgress(nextProgress);
+
+    if (nextProgress >= 0.98) {
+      setWalkPhase('arrival');
+    }
+  }, [isPaused, isSimulated, setWalkPhase, simulatedProgress]);
+
+  useEffect(() => {
+    if (isPaused || isSimulated) {
       return undefined;
     }
 
@@ -85,7 +102,7 @@ function ActiveWalk() {
     updateProgress();
     const timer = window.setInterval(updateProgress, PROGRESS_UPDATE_INTERVAL_MS);
     return () => window.clearInterval(timer);
-  }, [isPaused, route, setWalkPhase]);
+  }, [isPaused, isSimulated, route, setWalkPhase]);
 
   return (
     <motion.section className="screen active-walk">
