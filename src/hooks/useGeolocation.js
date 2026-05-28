@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { along, length, lineString } from '@turf/turf';
 
+const SIMULATED_WALK_STEPS = 20;
+const SIMULATED_WALK_INTERVAL_MS = 1000;
+
 function firstCoordinate(route) {
   return route?.geometry?.coordinates?.[0] ?? null;
 }
@@ -39,14 +42,14 @@ export function useGeolocation(activeRoute, { enabled = true, useRealLocation = 
     let step = 0;
     const totalKm = length(routeLine, { units: 'kilometers' });
     const tick = () => {
-      const ratio = Math.min(step / 36, 1);
+      const ratio = Math.min(step / SIMULATED_WALK_STEPS, 1);
       const nextPoint = along(routeLine, totalKm * ratio, { units: 'kilometers' });
       setPosition(nextPoint.geometry.coordinates);
       step += 1;
     };
 
     tick();
-    const timer = window.setInterval(tick, 3000);
+    const timer = window.setInterval(tick, SIMULATED_WALK_INTERVAL_MS);
     return () => window.clearInterval(timer);
   }, [activeRoute, enabled, routeLine, useRealLocation]);
 

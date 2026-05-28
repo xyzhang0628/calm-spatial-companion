@@ -14,6 +14,7 @@ const gentleTransition = {
   ease: [0.22, 1, 0.36, 1],
 };
 const NOTE_EMERGE_DELAY_MS = 2200;
+const PROGRESS_UPDATE_INTERVAL_MS = 1000;
 
 function ActiveWalk() {
   const { activeRoute, addTriggeredMoment, setWalkPhase, triggeredMoments } = useWalk();
@@ -82,7 +83,7 @@ function ActiveWalk() {
     };
 
     updateProgress();
-    const timer = window.setInterval(updateProgress, 10000);
+    const timer = window.setInterval(updateProgress, PROGRESS_UPDATE_INTERVAL_MS);
     return () => window.clearInterval(timer);
   }, [isPaused, route, setWalkPhase]);
 
