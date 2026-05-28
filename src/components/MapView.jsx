@@ -11,6 +11,13 @@ const routeFeature = (route) => ({ type: 'Feature', properties: { id: route.id }
 const lineLayout = { 'line-cap': 'round', 'line-join': 'round' };
 const CAMERA_EASE = (time) => 1 - ((1 - time) ** 3);
 
+const ROUTE_LINE_STYLES = {
+  calm: { width: 3, opacity: 0.55, blur: 0.5 },
+  grounded: { width: 4, opacity: 0.7, dasharray: [2, 1] },
+  open: { width: 3.5, opacity: 0.65, blur: 0 },
+  flowing: { width: 4, opacity: 0.6, blur: 0 },
+};
+
 function isNoisyLabel(layerId) {
   return (
     layerId.includes('poi-label') ||
@@ -64,6 +71,28 @@ function walkedFeature(route, progress) {
     properties: {},
     geometry: { type: 'LineString', coordinates: [...coords.slice(0, cutoff), pointOnLine.geometry.coordinates] },
   };
+}
+
+function routeLinePaint(state, color, drawProgress, mode) {
+  const style = ROUTE_LINE_STYLES[state] ?? ROUTE_LINE_STYLES.calm;
+  const width = mode === 'walking' ? Math.max(style.width - 1, 3) : style.width;
+  const opacity = mode === 'walking' ? Math.max(style.opacity - 0.1, 0.5) : style.opacity;
+  const paint = {
+    'line-gradient': [
+      'step',
+      ['line-progress'],
+      color,
+      drawProgress,
+      'rgba(122, 122, 122, 0)',
+    ],
+    'line-width': width,
+    'line-opacity': opacity,
+  };
+
+  if (style.blur) paint['line-blur'] = style.blur;
+  if (style.dasharray) paint['line-dasharray'] = style.dasharray;
+
+  return paint;
 }
 
 function MapView({ routes = [], activeRoute, position, progress = 0, mode = 'browse' }) {
@@ -163,17 +192,7 @@ function MapView({ routes = [], activeRoute, position, progress = 0, mode = 'bro
           <Layer
             id="active-route-line"
             type="line"
-            paint={{
-              'line-gradient': [
-                'step',
-                ['line-progress'],
-                stateColor,
-                routeDrawProgress,
-                'rgba(122, 122, 122, 0)',
-              ],
-              'line-width': mode === 'browse' ? 4 : 3,
-              'line-opacity': mode === 'browse' ? 0.7 : 0.5,
-            }}
+            paint={routeLinePaint(activeRoute.state, stateColor, routeDrawProgress, mode)}
             layout={lineLayout}
           />
         </Source>

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useRef } from 'react';
 import { useWalk } from '../context/WalkContext.jsx';
-import { routes } from '../data/routes.js';
+import { getRoutesForState } from '../data/routeLogic.js';
 import MapView from './MapView.jsx';
 import RouteCard from './RouteCard.jsx';
 
@@ -14,6 +14,7 @@ function RouteDiscovery() {
   const {
     spatialState,
     activeRoute,
+    selectedDuration,
     setActiveRoute,
     setWalkPhase,
   } = useWalk();
@@ -21,8 +22,8 @@ function RouteDiscovery() {
 
   const visibleRoutes = useMemo(() => {
     const state = spatialState ?? activeRoute?.state ?? 'calm';
-    return routes.filter((route) => route.state === state);
-  }, [activeRoute?.state, spatialState]);
+    return getRoutesForState(state, selectedDuration);
+  }, [activeRoute?.state, selectedDuration, spatialState]);
 
   useEffect(() => {
     const missingActiveRoute =
