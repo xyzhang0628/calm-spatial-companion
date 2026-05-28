@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useWalk } from '../context/WalkContext.jsx';
+import { SPATIAL_LAYERS } from '../data/spatialLayers.js';
 
 const closingLines = {
   calm: 'You found some quiet. Carry a little of it with you.',
@@ -19,6 +20,7 @@ function Arrival() {
     setWalkPhase,
   } = useWalk();
   const [isSaved, setIsSaved] = useState(false);
+  const layer = SPATIAL_LAYERS[activeRoute?.id];
 
   function handleWalkAgain() {
     setSpatialState(null);
@@ -47,6 +49,16 @@ function Arrival() {
         transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
       >
         <h1>{closingLines[spatialState ?? activeRoute?.state ?? 'calm']}</h1>
+        {layer?.l.transitionNote && (
+          <motion.p
+            className="arrival__transition-note"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.8 }}
+          >
+            {layer.l.transitionNote}
+          </motion.p>
+        )}
         <div className="arrival__actions">
           <button type="button" className="walk-again-button" onClick={handleWalkAgain}>
             Walk again

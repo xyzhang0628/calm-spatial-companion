@@ -1,8 +1,16 @@
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
+const SCALE_LABELS = {
+  xs: 'body',
+  s: 'path',
+  m: 'neighborhood',
+  l: 'landscape',
+};
+
 function CompanionNote({ moment, onDismiss }) {
   const words = moment.companion_note.split(' ');
+  const scaleLabel = SCALE_LABELS[moment.scale] ?? SCALE_LABELS.xs;
 
   useEffect(() => {
     const timer = window.setTimeout(onDismiss, 11000);
@@ -18,7 +26,7 @@ function CompanionNote({ moment, onDismiss }) {
       transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
       onClick={onDismiss}
     >
-      <p className="companion-note__label">spatial cue</p>
+      <p className="companion-note__label">{scaleLabel}</p>
       <motion.p
         className="companion-note__text"
         variants={{ show: { transition: { staggerChildren: 0.055 } } }}

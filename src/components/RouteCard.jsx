@@ -1,4 +1,8 @@
+import { SPATIAL_LAYERS } from '../data/spatialLayers.js';
+
 function RouteCard({ route, isActive, onSelect, onBegin }) {
+  const layer = SPATIAL_LAYERS[route.id];
+
   return (
     <article
       className={`route-card ${isActive ? 'is-active' : ''}`}
@@ -7,9 +11,17 @@ function RouteCard({ route, isActive, onSelect, onBegin }) {
       <button type="button" className="route-card__select" aria-pressed={isActive}>
         <div className="route-card__top">
           <h2>{route.name}</h2>
-          <span className="route-card__duration">{route.duration_min} min</span>
+          <span className="route-card__meta-pills">
+            {layer?.m.neighborhoodRhythm && (
+              <span className="route-card__rhythm">{layer.m.neighborhoodRhythm}</span>
+            )}
+            <span className="route-card__duration">{route.duration_min} min</span>
+          </span>
         </div>
         <p className="route-card__tagline">{route.tagline}</p>
+        {layer?.s.pathDescriptor && (
+          <p className="route-card__path-descriptor">{layer.s.pathDescriptor}</p>
+        )}
         <div className="route-card__tags">
           {route.tags.map((tag) => (
             <span key={tag}>{tag}</span>

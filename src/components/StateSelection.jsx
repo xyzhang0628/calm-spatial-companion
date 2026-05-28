@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo } from 'react';
 import { routes } from '../data/routes.js';
+import { XL_QUESTIONS } from '../data/spatialLayers.js';
 import { useWalk } from '../context/WalkContext.jsx';
 
 const stateOptions = [
@@ -95,6 +96,20 @@ function StateSelection() {
               transition={{ delay: 0.4, duration: 0.4 }}
             >
               {selectedOption.note}
+            </motion.p>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {spatialState && (
+            <motion.p
+              className="state-xl-question"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              {XL_QUESTIONS[spatialState]}
             </motion.p>
           )}
         </AnimatePresence>

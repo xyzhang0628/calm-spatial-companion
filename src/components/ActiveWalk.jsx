@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { length, nearestPointOnLine, point } from '@turf/turf';
 import { useWalk } from '../context/WalkContext.jsx';
 import { routes } from '../data/routes.js';
+import { SPATIAL_LAYERS } from '../data/spatialLayers.js';
 import { useGeolocation } from '../hooks/useGeolocation.js';
 import { useMomentDetection } from '../hooks/useMomentDetection.js';
 import CompanionNote from './CompanionNote.jsx';
@@ -36,13 +37,21 @@ function ActiveWalk() {
 
   const handleMoment = useCallback(
     (moment) => {
+      const layer = SPATIAL_LAYERS[route.id];
+      const xsPrompt = layer?.xs.find((item) => item.momentId === moment.id);
+      const companionMoment = {
+        ...moment,
+        companion_note: xsPrompt?.prompt ?? moment.companion_note,
+        scale: xsPrompt?.scale ?? 'xs',
+      };
+
       addTriggeredMoment(moment.id);
       window.clearTimeout(noteTimerRef.current);
       noteTimerRef.current = window.setTimeout(() => {
-        setCurrentMoment(moment);
+        setCurrentMoment(companionMoment);
       }, NOTE_EMERGE_DELAY_MS);
     },
-    [addTriggeredMoment],
+    [addTriggeredMoment, route.id],
   );
 
   useEffect(

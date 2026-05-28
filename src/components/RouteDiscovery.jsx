@@ -1,7 +1,8 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useMemo, useRef } from 'react';
 import { useWalk } from '../context/WalkContext.jsx';
 import { getRoutesForState } from '../data/routeLogic.js';
+import { SPATIAL_LAYERS } from '../data/spatialLayers.js';
 import MapView from './MapView.jsx';
 import RouteCard from './RouteCard.jsx';
 
@@ -19,6 +20,7 @@ function RouteDiscovery() {
     setWalkPhase,
   } = useWalk();
   const listRef = useRef(null);
+  const activeLayer = SPATIAL_LAYERS[activeRoute?.id];
 
   const visibleRoutes = useMemo(() => {
     const state = spatialState ?? activeRoute?.state ?? 'calm';
@@ -67,6 +69,20 @@ function RouteDiscovery() {
         exit={{ y: 220, opacity: 0 }}
         transition={sheetTransition}
       >
+        <AnimatePresence mode="wait">
+          {activeLayer?.m.rhythmNote && (
+            <motion.p
+              key={activeRoute.id}
+              className="bottom-sheet__rhythm-note"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.8 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {activeLayer.m.rhythmNote}
+            </motion.p>
+          )}
+        </AnimatePresence>
         <div className="bottom-sheet__handle" aria-hidden="true" />
         <div className="route-list" ref={listRef} onScroll={handleScroll}>
           {visibleRoutes.map((route) => (
