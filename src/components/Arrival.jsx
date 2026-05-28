@@ -56,6 +56,7 @@ function Arrival() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.8 }}
           >
+            <span className="scale-kicker">L · landscape</span>
             {layer.l.transitionNote}
           </motion.p>
         )}

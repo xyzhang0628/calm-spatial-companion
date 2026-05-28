@@ -109,6 +109,7 @@ function StateSelection() {
               exit={{ opacity: 0, y: 6 }}
               transition={{ delay: 0.6, duration: 0.5 }}
             >
+              <span className="scale-kicker">XL</span>
               {XL_QUESTIONS[spatialState]}
             </motion.p>
           )}

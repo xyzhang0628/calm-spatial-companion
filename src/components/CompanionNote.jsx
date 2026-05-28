@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
 const SCALE_LABELS = {
-  xs: 'body',
-  s: 'path',
-  m: 'neighborhood',
-  l: 'landscape',
+  xs: 'XS · body',
+  s: 'S · path',
+  m: 'M · neighborhood',
+  l: 'L · landscape',
 };
 
 function CompanionNote({ moment, onDismiss }) {

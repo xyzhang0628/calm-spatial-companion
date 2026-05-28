@@ -160,6 +160,17 @@ button {
   text-align: center;
 }
 
+.scale-kicker {
+  color: var(--text-tertiary);
+  display: inline-block;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  margin-right: 7px;
+  text-transform: uppercase;
+}
+
 .duration-panel {
   margin-top: auto;
 }

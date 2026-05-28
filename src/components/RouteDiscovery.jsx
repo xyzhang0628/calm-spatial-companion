@@ -79,6 +79,7 @@ function RouteDiscovery() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
+              <span className="scale-kicker">M</span>
               {activeLayer.m.rhythmNote}
             </motion.p>
           )}

@@ -13,14 +13,17 @@ function RouteCard({ route, isActive, onSelect, onBegin }) {
           <h2>{route.name}</h2>
           <span className="route-card__meta-pills">
             {layer?.m.neighborhoodRhythm && (
-              <span className="route-card__rhythm">{layer.m.neighborhoodRhythm}</span>
+              <span className="route-card__rhythm">M · {layer.m.neighborhoodRhythm}</span>
             )}
             <span className="route-card__duration">{route.duration_min} min</span>
           </span>
         </div>
         <p className="route-card__tagline">{route.tagline}</p>
         {layer?.s.pathDescriptor && (
-          <p className="route-card__path-descriptor">{layer.s.pathDescriptor}</p>
+          <p className="route-card__path-descriptor">
+            <span className="scale-kicker">S · path</span>
+            {layer.s.pathDescriptor}
+          </p>
         )}
         <div className="route-card__tags">
           {route.tags.map((tag) => (
