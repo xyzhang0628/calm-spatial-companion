@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { length, nearestPointOnLine, point } from '@turf/turf';
 import { useWalk } from '../context/WalkContext.jsx';
 import { routes } from '../data/routes.js';
-import { SPATIAL_LAYERS } from '../data/spatialLayers.js';
+import { SPATIAL_LAYERS, XL_QUESTIONS } from '../data/spatialLayers.js';
 import { useGeolocation } from '../hooks/useGeolocation.js';
 import { useMomentDetection } from '../hooks/useMomentDetection.js';
 import CompanionNote from './CompanionNote.jsx';
@@ -20,6 +20,16 @@ const PROGRESS_UPDATE_INTERVAL_MS = 1000;
 function ActiveWalk() {
   const { activeRoute, addTriggeredMoment, setWalkPhase, triggeredMoments } = useWalk();
   const route = activeRoute ?? routes[0];
+  const layer = SPATIAL_LAYERS[route.id];
+  const scaleItems = layer
+    ? [
+        ['XS', 'body'],
+        ['S', layer.s.pathCharacter],
+        ['M', layer.m.neighborhoodRhythm],
+        ['L', layer.l.landscapeTransition],
+        ['XL', XL_QUESTIONS[route.state]],
+      ]
+    : [];
   const [isPaused, setIsPaused] = useState(false);
   const [currentMoment, setCurrentMoment] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -158,6 +168,17 @@ function ActiveWalk() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ ...gentleTransition, delay: 0.28 }}
       >
+        <div className="walk-scale-strip" aria-label="Spatial awareness scales">
+          {scaleItems.map(([scale, label]) => (
+            <span
+              key={scale}
+              className={`walk-scale-chip ${scale === 'XL' ? 'walk-scale-chip--xl' : ''}`}
+            >
+              <strong>{scale}</strong>
+              {label}
+            </span>
+          ))}
+        </div>
         <p>{currentMoment?.label ?? route.name}</p>
         <ProgressArc progress={progress} />
       </motion.div>
