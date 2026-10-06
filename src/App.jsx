@@ -185,6 +185,7 @@ function App() {
       {selectedObject && menu && (
         <div className="object-menu" style={{ left: menu.position.x, top: menu.position.y }}>
           <p>{OBJECT_DEFINITIONS[selectedObject.type]?.label ?? 'Jelly object'}</p>
+          <span className="object-menu__hint">Color</span>
           <div className="swatches" aria-label="Color swatches">
             {SWATCHES.map((color) => (
               <button
@@ -198,10 +199,22 @@ function App() {
             ))}
           </div>
           <div className="object-menu__actions">
-            <button type="button" onClick={() => sceneRef.current?.duplicateObject(menu.id)}>
+            <button
+              type="button"
+              onClick={() => {
+                sceneRef.current?.duplicateObject(menu.id);
+                setMenu(null);
+              }}
+            >
               Duplicate
             </button>
-            <button type="button" onClick={() => sceneRef.current?.removeObject(menu.id)}>
+            <button
+              type="button"
+              onClick={() => {
+                sceneRef.current?.removeObject(menu.id);
+                setMenu(null);
+              }}
+            >
               Remove
             </button>
           </div>

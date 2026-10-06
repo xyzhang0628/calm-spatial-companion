@@ -147,6 +147,15 @@ class JellyScene {
     return state.id;
   }
 
+  nextPlacement() {
+    const index = this.objects.size;
+    if (index === 0) return new THREE.Vector3(0, 0, 0);
+
+    const angle = index * 2.399963229728653;
+    const radius = 0.78 + Math.floor(index / 5) * 0.52;
+    return new THREE.Vector3(Math.cos(angle) * radius, Math.sin(angle) * radius * 0.62, 0.02 * (index % 3));
+  }
+
   duplicateObject(id) {
     const source = this.objects.get(id);
     if (!source) return;
